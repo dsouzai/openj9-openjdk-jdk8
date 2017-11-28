@@ -29,7 +29,7 @@ endif
 
 # 64 bit compressedrefs builds put some of the libraries in lib/compressedrefs.
 # What's the appropriate directory for a 32 bit build? I've opted for 'default'.
-ifeq (1,$(OPENJDK_DOCKER_CC_ARM))  # condition should be more specific to 32bit
+ifeq (1,$(OPENJ9_DOCKER_CC_ARM))  # condition should be more specific to 32bit
   LIB_SUBDIR=default
 else
   LIB_SUBDIR=compressedrefs
@@ -78,7 +78,7 @@ override MAKEFLAGS := -j $(JOBS)
 # ----------------------
 # param 1 = The jdk/jre directory name
 # param 2 = The jdk/jre directory to add openj9 content
-ifeq (1,$(OPENJDK_DOCKER_CC_ARM))
+ifeq (1,$(OPENJ9_DOCKER_CC_ARM))
 define generated_target_rules
 .PHONY : stage_openj9_$1
 $(foreach file,$(OPENJ9_SHARED_LIBRARIES),$(eval $(call openj9_copy_file,$2/lib$(OPENJDK_TARGET_CPU_LIBDIR)/$(LIB_SUBDIR)/$(file),$(OUTPUT_ROOT)/vm/$(file))))
@@ -182,7 +182,7 @@ define openj9_copy_tree_impl
 endef
 
 # Temporary fix until we work out how to handle the build_jdk for cross compiles
-ifeq (1,$(OPENJDK_DOCKER_CC_ARM))
+ifeq (1,$(OPENJ9_DOCKER_CC_ARM))
   $(info Cross compilation detected, skipping generated_target_rules_build)
 else
   $(eval $(call generated_target_rules_build,build_jdk,$(BUILD_JDK)))

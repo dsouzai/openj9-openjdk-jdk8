@@ -126,7 +126,11 @@ AC_DEFUN_ONCE([OPENJ9_PLATFORM_SETUP],
     OPENJ9_PLATFORM_CODE=ap64
   elif test "x$OPENJ9_CPU" = xarm; then
     OPENJ9_PLATFORM_CODE=xr32
-    OPENJ9_BUILDSPEC=linux_arm
+    if test "x$OPENJ9_DOCKER_CC_ARM" = x1; then
+      OPENJ9_BUILDSPEC=linux_arm_docker
+    else
+      OPENJ9_BUILDSPEC=linux_arm
+    fi
   else
     AC_MSG_ERROR([Unsupported OpenJ9 cpu ${OPENJ9_CPU}, contact support team!])
   fi
